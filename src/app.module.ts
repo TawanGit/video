@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
-import { UsersService } from './users/users.service';
 import { UsersModule } from './users/users.module';
 
 @Module({
@@ -16,9 +15,10 @@ import { UsersModule } from './users/users.module';
       database: process.env.DATABASE_NAME,
       synchronize: true,
       autoLoadEntities: true,
-    }), UsersModule,
+    }),
+    UsersModule,
   ],
   controllers: [],
-  providers: [UsersService],
+  providers: [],
 })
 export class AppModule {}
