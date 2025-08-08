@@ -1,0 +1,17 @@
+services:
+  db:
+    image: mysql:5.7
+    container_name: video_db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root # Replace with a strong password
+      MYSQL_DATABASE: video # Optional: Create a default database
+      MYSQL_USER: user # Optional: Create a specific user
+      MYSQL_PASSWORD: root # Optional: Password for the specific user
+    ports:
+      - '3306:3306' # Maps host port 3306 to container port 3306
+    volumes:
+      - mysql_data:/var/lib/mysql # Persistent storage for MySQL data
+
+volumes:
+  mysql_data: # Define the named volume for data persistence
