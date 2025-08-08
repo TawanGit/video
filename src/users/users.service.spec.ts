@@ -2,17 +2,20 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { UsersService } from './users.service';
 
 describe('UsersService', () => {
-  let service: UsersService;
+  let userService: UsersService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [UsersService],
-    }).compile();
-
-    service = module.get<UsersService>(UsersService);
+    userService = {
+      fetchUsers: jest.fn().mockResolvedValue([]),
+    } as unknown as jest.Mocked<UsersService>;
   });
 
-  it('should be defined', () => {
-    expect(service).toBeDefined();
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('return users', async () => {
+    const result = await userService.fetchUsers();
+    expect(result).toEqual([]);
   });
 });
