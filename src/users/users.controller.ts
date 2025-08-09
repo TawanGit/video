@@ -26,6 +26,11 @@ export class UsersController {
     return this.usersService.createUser(user);
   }
 
+  @Post('/subscribe')
+  subscribe(@Body() body: { userId: number; targetUserId: number }) {
+    return this.usersService.subscribe(body.userId, body.targetUserId);
+  }
+
   @Put()
   @UseInterceptors(FileInterceptor('photo'))
   update(

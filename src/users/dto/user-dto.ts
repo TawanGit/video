@@ -8,5 +8,6 @@ export class UserDto {
   @IsNotEmpty()
   password: string;
 
+  description?: string;
   photo?: string;
 }

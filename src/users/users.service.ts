@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   ConflictException,
   Injectable,
   NotFoundException,
@@ -10,6 +11,7 @@ import { UserDto } from './dto/user-dto';
 import * as bcrypt from 'bcrypt';
 import { UpdateUser } from './dto/update-user';
 import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
+import { SubscribeDto } from './dto/subscribe-dto';
 @Injectable()
 export class UsersService {
   constructor(
@@ -57,5 +59,32 @@ export class UsersService {
     const updatedUser = await this.userRepository.save(user);
 
     return updatedUser;
+  }
+
+  async subscribe(userId: number, targetUserId: number) {
+    if (!userId || !targetUserId)
+      throw new BadRequestException('User ids must be provided');
+    const user = await this.userRepository.findOne({
+      where: { id: userId },
+      relations: ['subscriptions'],
+    });
+    const targetUser = await this.userRepository.findOneBy({
+      id: targetUserId,
+    });
+
+    if (!user || !targetUser) throw new NotFoundException('User not found');
+
+    // Add targetUser to subscriptions if not already subscribed
+    if (!user.subscriptions.find((u) => u.id === targetUserId)) {
+      user.subscriptions.push(targetUser);
+      await this.userRepository.save(user);
+      return { message: 'Subscribed successfully!' };
+    } else {
+      user.subscriptions = user.subscriptions.filter(
+        (item) => item.id !== targetUserId,
+      );
+      await this.userRepository.save(user);
+      return { message: 'Unsubscribed successfully!' };
+    }
   }
 }

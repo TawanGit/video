@@ -1,6 +1,8 @@
 import {
   Column,
   Entity,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -23,6 +25,23 @@ export class User {
 
   @Column()
   photo: string;
+
+  @Column()
+  description: string;
+
+  @ManyToMany(() => User, (user) => user.subscriptions)
+  @JoinTable({
+    name: 'subscriptions',
+    joinColumn: {
+      name: 'subscriber_id',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'subscribed_to_id',
+      referencedColumnName: 'id',
+    },
+  })
+  subscriptions: User[];
 
   @OneToMany(() => Video, (video) => video.user)
   videos: Video[];
