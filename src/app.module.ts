@@ -6,6 +6,7 @@ import { AuthModule } from './auth/auth.module';
 import { CloudinaryService } from './cloudinary/cloudinary.service';
 import { CloudinaryController } from './cloudinary/cloudinary.controller';
 import { CloudinaryModule } from './cloudinary/cloudinary.module';
+import { VideosModule } from './videos/videos.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { CloudinaryModule } from './cloudinary/cloudinary.module';
     UsersModule,
     AuthModule,
     CloudinaryModule,
+    VideosModule,
   ],
   controllers: [CloudinaryController],
   providers: [CloudinaryService],

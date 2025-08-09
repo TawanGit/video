@@ -17,4 +17,11 @@ export class CloudinaryController {
     const imageUrl = await this.cloudinaryService.uploadImage(file);
     return { url: imageUrl };
   }
+
+  @Post('video')
+  @UseInterceptors(FileInterceptor('file'))
+  async uploadVideo(@UploadedFile() file: Express.Multer.File) {
+    const videoUrl = await this.cloudinaryService.uploadVideo(file);
+    return { url: videoUrl };
+  }
 }
