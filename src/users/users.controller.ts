@@ -2,6 +2,8 @@ import {
   Body,
   Controller,
   Get,
+  Param,
+  ParseIntPipe,
   Post,
   Put,
   UploadedFile,
@@ -26,9 +28,19 @@ export class UsersController {
     return this.usersService.createUser(user);
   }
 
-  @Post('/subscribe')
+  @Post('/subscriptions')
   subscribe(@Body() body: { userId: number; targetUserId: number }) {
     return this.usersService.subscribe(body.userId, body.targetUserId);
+  }
+
+  @Get('/subscriptions/:id')
+  getAllSubscriptions(@Param('id', ParseIntPipe) id: number) {
+    return this.usersService.getAllSubscriptions(id);
+  }
+
+  @Get('/subscribers/:id')
+  getAllSubscribers(@Param('id', ParseIntPipe) id: number) {
+    return this.usersService.getAllSubscribers(id);
   }
 
   @Put()

@@ -87,4 +87,28 @@ export class UsersService {
       return { message: 'Unsubscribed successfully!' };
     }
   }
+
+  async getAllSubscriptions(id: number) {
+    const user = await this.userRepository.findOne({
+      where: { id },
+      relations: ['subscriptions'],
+    });
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    return user.subscriptions;
+  }
+
+  async getAllSubscribers(id: number) {
+    const user = await this.userRepository.findOne({
+      where: { id },
+      relations: ['subscribers'],
+    });
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    return user.subscribers;
+  }
 }

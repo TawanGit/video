@@ -29,7 +29,7 @@ export class User {
   @Column()
   description: string;
 
-  @ManyToMany(() => User, (user) => user.subscriptions)
+  @ManyToMany(() => User, (user) => user.subscribers)
   @JoinTable({
     name: 'subscriptions',
     joinColumn: {
@@ -42,6 +42,9 @@ export class User {
     },
   })
   subscriptions: User[];
+
+  @ManyToMany(() => User, (user) => user.subscriptions)
+  subscribers: User[];
 
   @OneToMany(() => Video, (video) => video.user)
   videos: Video[];
