@@ -7,4 +7,6 @@ export class UserDto {
   email: string;
   @IsNotEmpty()
   password: string;
+
+  photo?: string;
 }
