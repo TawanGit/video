@@ -21,6 +21,9 @@ export class User {
   @Column()
   password: string;
 
+  @Column()
+  photo: string;
+
   @OneToMany(() => Video, (video) => video.user)
   videos: Video[];
 }

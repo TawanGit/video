@@ -1,13 +1,20 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/typeorm/entities/User';
 import { Repository } from 'typeorm';
 import { UserDto } from './dto/user-dto';
 import * as bcrypt from 'bcrypt';
+import { UpdateUser } from './dto/update-user';
+import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
+    private cloudinaryService: CloudinaryService,
   ) {}
   fetchUsers() {
     return this.userRepository.find();
@@ -33,5 +40,22 @@ export class UsersService {
       ...user,
       password: hashPassword,
     });
+  }
+  async updateUser(updateUser: UpdateUser, photo?: Express.Multer.File) {
+    const user = await this.userRepository.findOneBy({ id: updateUser.id });
+    if (!user) throw new NotFoundException('User not found');
+
+    if (photo) {
+      const photoUrl = await this.cloudinaryService.uploadImage(photo);
+      user.photo = photoUrl;
+    }
+
+    if (updateUser.username) user.username = updateUser.username;
+    if (updateUser.email) user.email = updateUser.email;
+    if (updateUser.password) user.password = updateUser.password;
+
+    const updatedUser = await this.userRepository.save(user);
+
+    return updatedUser;
   }
 }

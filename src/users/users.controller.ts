@@ -1,6 +1,16 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Put,
+  UploadedFile,
+  UseInterceptors,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UserDto } from './dto/user-dto';
+import { UpdateUser } from './dto/update-user';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('users')
 export class UsersController {
@@ -14,5 +24,14 @@ export class UsersController {
   @Post()
   createUser(@Body() user: UserDto) {
     return this.usersService.createUser(user);
+  }
+
+  @Put()
+  @UseInterceptors(FileInterceptor('photo'))
+  update(
+    @Body() updateUser: UpdateUser,
+    @UploadedFile() photo?: Express.Multer.File,
+  ) {
+    return this.usersService.updateUser(updateUser, photo);
   }
 }

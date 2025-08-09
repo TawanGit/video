@@ -3,6 +3,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
+import { CloudinaryService } from './cloudinary/cloudinary.service';
+import { CloudinaryController } from './cloudinary/cloudinary.controller';
+import { CloudinaryModule } from './cloudinary/cloudinary.module';
 
 @Module({
   imports: [
@@ -19,8 +22,9 @@ import { AuthModule } from './auth/auth.module';
     }),
     UsersModule,
     AuthModule,
+    CloudinaryModule,
   ],
-  controllers: [],
-  providers: [],
+  controllers: [CloudinaryController],
+  providers: [CloudinaryService],
 })
 export class AppModule {}
