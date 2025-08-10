@@ -3,11 +3,11 @@ import {
   Entity,
   JoinTable,
   ManyToMany,
-  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Video } from './Video';
+import { Comment } from './Comment';
 
 @Entity({ name: 'users' })
 export class User {
@@ -48,4 +48,7 @@ export class User {
 
   @OneToMany(() => Video, (video) => video.user)
   videos: Video[];
+
+  @OneToMany(() => Comment, (comment) => comment.user)
+  comments: Comment[];
 }
