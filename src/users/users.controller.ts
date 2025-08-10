@@ -23,6 +23,11 @@ export class UsersController {
     return this.usersService.fetchUsers();
   }
 
+  @Get(':id')
+  FetchUser(@Param('id', ParseIntPipe) id: number) {
+    return this.usersService.fetchUser(id);
+  }
+
   @Post()
   createUser(@Body() user: UserDto) {
     return this.usersService.createUser(user);

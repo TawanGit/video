@@ -21,6 +21,13 @@ export class UsersService {
   fetchUsers() {
     return this.userRepository.find();
   }
+
+  async fetchUser(id: number) {
+    return await this.userRepository.findOne({
+      where: { id },
+      relations: ['subscribers', 'subscriptions'],
+    });
+  }
   async createUser(user: UserDto) {
     const userExist = await this.userRepository.findOneBy({
       email: user.email,
@@ -55,6 +62,7 @@ export class UsersService {
     if (updateUser.username) user.username = updateUser.username;
     if (updateUser.email) user.email = updateUser.email;
     if (updateUser.password) user.password = updateUser.password;
+    if (updateUser.description) user.description = updateUser.description;
 
     const updatedUser = await this.userRepository.save(user);
 

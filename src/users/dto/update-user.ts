@@ -13,6 +13,9 @@ export class UpdateUser {
   email?: string;
 
   @IsOptional()
+  description?: string;
+
+  @IsOptional()
   @IsString()
   password?: string;
 }
