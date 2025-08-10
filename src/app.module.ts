@@ -20,6 +20,7 @@ import { VideosModule } from './videos/videos.module';
       database: process.env.DATABASE_NAME,
       synchronize: true,
       autoLoadEntities: true,
+      timezone: 'America/Sao_Paulo',
     }),
     UsersModule,
     AuthModule,

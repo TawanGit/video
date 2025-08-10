@@ -25,7 +25,7 @@ export class UsersService {
   async fetchUser(id: number) {
     return await this.userRepository.findOne({
       where: { id },
-      relations: ['subscribers', 'subscriptions'],
+      relations: ['subscribers', 'subscriptions', 'videos'],
     });
   }
   async createUser(user: UserDto) {
