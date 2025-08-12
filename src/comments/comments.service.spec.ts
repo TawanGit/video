@@ -27,6 +27,12 @@ describe('CommentsController', () => {
     service = module.get<CommentsService>(CommentsService);
   });
 
+  it('should return an empty array when no comments exist', async () => {
+    jest.spyOn(service, 'getComments').mockResolvedValueOnce([]);
+    const result = await controller.getComments(1);
+    expect(result).toEqual([]);
+  });
+
   it('should return comments', () => {
     const result = controller.getComments(1);
     expect(result).toEqual([
