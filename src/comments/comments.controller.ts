@@ -1,4 +1,11 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseIntPipe,
+  Post,
+} from '@nestjs/common';
 import { CommentsService } from './comments.service';
 import { CreateCommentDto } from './dtos/create-comment-dto';
 
@@ -9,5 +16,10 @@ export class CommentsController {
   @Post()
   create(@Body() createCommentDto: CreateCommentDto) {
     return this.commentsService.create(createCommentDto);
+  }
+
+  @Get(':id')
+  getComments(@Param(':id') videoId: number) {
+    return this.commentsService.getComments(videoId);
   }
 }

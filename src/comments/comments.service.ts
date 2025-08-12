@@ -1,10 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateCommentDto } from './dtos/create-comment-dto';
-import { Comment } from 'src/typeorm/entities/Comment';
+import { Comment } from '../../src/typeorm/entities/Comment';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { User } from 'src/typeorm/entities/User';
-import { Video } from 'src/typeorm/entities/Video';
+import { User } from '../../src/typeorm/entities/User';
+import { Video } from '../../src/typeorm/entities/Video';
 
 @Injectable()
 export class CommentsService {
@@ -35,6 +35,22 @@ export class CommentsService {
       user: user,
       video: video,
     });
-    return await this.commentRepository.save(newComment);
+    await this.commentRepository.save(newComment);
+    return newComment;
+  }
+
+  async getComments(videoId: number) {
+    const video = await this.videoRepository.findOne({
+      where: { id: videoId },
+    });
+
+    if (!video) {
+      throw new NotFoundException('Video não encontrado');
+    }
+
+    return await this.commentRepository.find({
+      where: { video: { id: videoId } },
+      relations: ['user'],
+    });
   }
 }
