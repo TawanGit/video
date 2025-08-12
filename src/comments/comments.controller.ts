@@ -15,11 +15,15 @@ export class CommentsController {
 
   @Post()
   create(@Body() createCommentDto: CreateCommentDto) {
-    return this.commentsService.create(createCommentDto);
+    try {
+      return this.commentsService.create(createCommentDto);
+    } catch (e) {
+      throw new Error(e.message);
+    }
   }
 
   @Get(':id')
-  getComments(@Param(':id') videoId: number) {
+  getComments(@Param('id') videoId: number) {
     return this.commentsService.getComments(videoId);
   }
 }

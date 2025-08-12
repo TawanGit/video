@@ -1,10 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateCommentDto } from './dtos/create-comment-dto';
-import { Comment } from '../../src/typeorm/entities/Comment';
+import { Comment } from 'src/typeorm/entities/Comment';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { User } from '../../src/typeorm/entities/User';
-import { Video } from '../../src/typeorm/entities/Video';
+import { User } from 'src/typeorm/entities/User';
+import { Video } from 'src/typeorm/entities/Video';
 
 @Injectable()
 export class CommentsService {
